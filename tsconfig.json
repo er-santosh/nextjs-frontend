@@ -1,0 +1,98 @@
+{
+  "compilerOptions": {
+    // ============================================
+    // LANGUAGE & ENVIRONMENT
+    // ============================================
+    "target": "ES2022", // Modern target for better performance
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+
+    // ============================================
+    // STRICT TYPE CHECKING
+    // ============================================
+    "strict": true, // Enables all strict options below
+
+    // Strict Options (explicitly listed for clarity)
+    "noImplicitAny": true, // No implicit 'any' types
+    "strictNullChecks": true, // Null and undefined are distinct
+    "strictFunctionTypes": true, // Strict function type checking
+    "strictBindCallApply": true, // Strict bind/call/apply
+    "strictPropertyInitialization": true, // Class properties must be initialized
+    "noImplicitThis": true, // No implicit 'this'
+    "alwaysStrict": true, // Parse in strict mode
+    "useUnknownInCatchVariables": true, // Catch variables are 'unknown' not 'any'
+
+    // ============================================
+    // ADDITIONAL STRICT CHECKS
+    // ============================================
+    "noUnusedLocals": true, // Error on unused local variables
+    "noUnusedParameters": true, // Error on unused parameters
+    "noImplicitReturns": true, // All code paths must return a value
+    "noFallthroughCasesInSwitch": true, // No fallthrough in switch statements
+    "noUncheckedIndexedAccess": true, // Add undefined to indexed access types
+    "noImplicitOverride": true, // Require 'override' keyword
+
+    // ============================================
+    // MODULE RESOLUTION
+    // ============================================
+    "esModuleInterop": true, // Better CommonJS/ESM interop
+    "allowSyntheticDefaultImports": true, // Allow default imports from modules with no default export
+    "resolveJsonModule": true, // Import JSON files
+    "isolatedModules": true, // Ensure each file can be safely transpiled
+    "moduleDetection": "force", // Treat all files as modules
+
+    // ============================================
+    // EMIT
+    // ============================================
+    "noEmit": true, // Next.js handles compilation
+    "incremental": true, // Faster subsequent builds
+    "removeComments": false, // Keep comments in output
+    "sourceMap": true, // Generate source maps for debugging
+    "declaration": false, // Don't generate .d.ts files (not needed for apps)
+
+    // ============================================
+    // INTEROP & COMPATIBILITY
+    // ============================================
+    "allowJs": true, // Allow JS files
+    "checkJs": false, // Don't type-check JS files (enable for stricter projects)
+    "skipLibCheck": true, // Skip type checking of declaration files (faster builds)
+    "forceConsistentCasingInFileNames": true, // Enforce consistent casing
+    "resolvePackageJsonExports": true, // Use package.json "exports" field
+    "resolvePackageJsonImports": true, // Use package.json "imports" field
+
+    // ============================================
+    // NEXT.JS SPECIFIC
+    // ============================================
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/public/*": ["./public/*"],
+      "@/prisma/*": ["./prisma/*"],
+      "@/generated/*": ["./generated/*"]
+    },
+
+    // ============================================
+    // EXPERIMENTAL (Optional - Uncomment if needed)
+    // ============================================
+    "verbatimModuleSyntax": true, // Enforce import type syntax
+    // "allowUnusedLabels": false, // Disallow unused labels
+    "allowUnreachableCode": false // Disallow unreachable code
+  },
+
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.mts",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+
+  "exclude": ["node_modules", ".next", "out", "dist", "build"]
+}
