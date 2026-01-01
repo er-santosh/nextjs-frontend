@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { appConfig } from "@/config/app";
 
-import { cn } from "@/lib/utils/classname/classname";
+import { cn } from "@/lib/utils/classname";
 
 import { APP_ROUTES } from "@/constants/app-routes";
 

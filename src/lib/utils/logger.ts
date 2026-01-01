@@ -1,9 +1,7 @@
 /* eslint-disable no-console */
 import { format } from "date-fns";
 
-import { env } from "@/config/env";
-
-import colors from "@/lib/utils/classname/colors";
+import colors from "@/lib/utils/colors";
 
 export interface ILogger {
   log(...messages: unknown[]): void;
@@ -24,12 +22,7 @@ export class Logger implements ILogger {
 
     colorFn: (s: string) => string
   ): void {
-    if (
-      env.NODE_ENV !== "production" ||
-      type === "log" ||
-      type === "info" ||
-      type === "error"
-    ) {
+    if (type === "log" || type === "info" || type === "error") {
       const now: string = format(new Date(), "PPpp");
       const prefix = colorFn(
         `[${type.toUpperCase()} - ${now} - ${colors.yellow(context)}]:`

@@ -12,14 +12,14 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "pnpm run test:e2e --ui",
     "test:e2e:report": "playwright show-report",
-    "lint:tjs": "eslint \"**/*.{js,mjs,ts,tsx}\" --cache --cache-strategy=content --cache-location=.eslintcache --max-warnings 0",
-    "lint:tjs:fix": "eslint \"**/*.{js,mjs,ts,tsx}\" --fix --cache --cache-strategy=content --cache-location=.eslintcache --max-warnings 0",
-    "lint:style": "stylelint \"**/*.css\" --allow-empty-input --cache --cache-strategy=content --cache-location=.stylelintcache --max-warnings 0",
-    "lint:style:fix": "stylelint \"**/*.css\" --fix --allow-empty-input --cache --cache-strategy=content --cache-location=.stylelintcache --max-warnings 0",
+    "lint:tjs": "eslint \"**/*.{js,mjs,ts,tsx}\" --max-warnings 0",
+    "lint:tjs:fix": "eslint \"**/*.{js,mjs,ts,tsx}\" --fix --max-warnings 0",
+    "lint:style": "stylelint \"**/*.css\" --allow-empty-input --max-warnings 0",
+    "lint:style:fix": "stylelint \"**/*.css\" --fix --allow-empty-input --max-warnings 0",
     "lint": "run-s lint:tjs lint:style",
     "lint:fix": "run-s lint:tjs:fix lint:style:fix",
-    "format:check": "prettier \"**/*.{js,mjs,ts,tsx,md,mdx,json,yml,css}\" --check --cache --cache-strategy=content --cache-location=.prettiercache",
-    "format": "prettier \"**/*.{js,mjs,ts,tsx,md,mdx,json,yml,css}\" --write --cache --cache-strategy=content --cache-location=.prettiercache",
+    "format:check": "prettier \"**/*.{js,mjs,ts,tsx,md,mdx,json,yml,css}\" --check",
+    "format": "prettier \"**/*.{js,mjs,ts,tsx,md,mdx,json,yml,css}\" --write",
     "type-check": "tsc --noEmit",
     "validate": "run-p type-check lint format:check",
     "validate:fix": "run-s lint:fix format",
@@ -29,7 +29,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs}": [
-      "eslint --fix --no-ignore --cache --max-warnings 0",
+      "eslint --fix --no-ignore --max-warnings 0",
       "prettier --check --write"
     ],
     "*.css": [

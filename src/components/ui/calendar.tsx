@@ -15,7 +15,7 @@ import {
 
 import { Button, buttonVariants } from "@/components/ui/button";
 
-import { cn } from "@/lib/utils/classname/classname";
+import { cn } from "@/lib/utils/classname";
 
 function Calendar({
   className,

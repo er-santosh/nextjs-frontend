@@ -1,4 +1,4 @@
-import { extractRoutes } from "@/lib/utils/classname/routes";
+import { extractRoutes } from "@/lib/utils/routes";
 
 export const APP_ROUTES = {
   SITE: {

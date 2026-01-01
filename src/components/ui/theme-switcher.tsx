@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import useMounted from "@/hooks/use-mounted";
 
-import { cn } from "@/lib/utils/classname/classname";
+import { cn } from "@/lib/utils/classname";
 
 const themes = [
   {
