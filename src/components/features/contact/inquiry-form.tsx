@@ -3,8 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { InquirySchema, type InquiryFormData } from "@/schema/inquiry";
-
 import { EmailField } from "@/components/form-fields/email-field";
 import { InputField } from "@/components/form-fields/input-field";
 import { SelectField } from "@/components/form-fields/select-field";
@@ -17,6 +15,8 @@ import {
   INQUIRY_TOPIC_OPTIONS,
   TEAM_SIZE_OPTIONS,
 } from "@/constants/inquiry-options";
+
+import { InquirySchema, type InquiryFormData } from "@/schemas/inquiry";
 
 const InquiryForm = () => {
   const { control, handleSubmit } = useForm<InquiryFormData>({
