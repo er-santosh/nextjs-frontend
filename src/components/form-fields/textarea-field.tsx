@@ -12,7 +12,7 @@ import {
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 
-import { cn } from "@/lib/utils/classname";
+import { cn } from "@/lib/utils/classname/classname";
 
 export interface TextareaFieldProps<T extends FieldValues> {
   control: Control<T>;

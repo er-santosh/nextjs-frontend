@@ -3,7 +3,7 @@ import { format } from "date-fns";
 
 import { env } from "@/config/env";
 
-import colors from "@/lib/utils/colors";
+import colors from "@/lib/utils/classname/colors";
 
 export interface ILogger {
   log(...messages: unknown[]): void;

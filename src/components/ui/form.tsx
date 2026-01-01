@@ -15,7 +15,7 @@ import {
 
 import { Label } from "@/components/ui/label";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classname/classname";
 
 import type * as LabelPrimitive from "@radix-ui/react-label";
 

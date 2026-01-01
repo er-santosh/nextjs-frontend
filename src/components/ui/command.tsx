@@ -13,7 +13,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import { cn } from "@/lib/utils/classname";
+import { cn } from "@/lib/utils/classname/classname";
 
 function Command({
   className,
