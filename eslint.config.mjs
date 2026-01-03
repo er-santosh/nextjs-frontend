@@ -88,7 +88,7 @@ const eslintConfig = defineConfig([
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
       "@typescript-eslint/no-unsafe-call": "off",
-      "@typescript-eslint/no-unsafe-return": "warn",
+      "@typescript-eslint/no-unsafe-return": "off",
 
       // ============================================
       // REACT RULES
@@ -143,7 +143,6 @@ const eslintConfig = defineConfig([
             ["parent", "sibling"],
             "index",
             "object",
-            "type",
           ],
           pathGroups: [
             {
@@ -159,6 +158,11 @@ const eslintConfig = defineConfig([
             {
               pattern: "next/**",
               group: "external",
+              position: "after",
+            },
+            {
+              pattern: "@/services/**",
+              group: "internal",
               position: "before",
             },
             {

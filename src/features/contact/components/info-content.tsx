@@ -1,6 +1,6 @@
 import { Mail, CheckCircle } from "lucide-react";
 
-import InquiryForm from "@/components/features/contact/inquiry-form";
+import InquiryForm from "@/features/contact/components/inquiry-form";
 
 import { appConfig } from "@/config/app";
 

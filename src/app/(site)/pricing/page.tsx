@@ -1,7 +1,7 @@
 import {
   type PricingPlan,
   PricingCard,
-} from "@/components/features/pricing/pricing-card";
+} from "@/features/pricing/components/pricing-card";
 
 const plans: PricingPlan[] = [
   {

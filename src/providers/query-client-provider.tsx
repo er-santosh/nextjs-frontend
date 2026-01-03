@@ -1,28 +1,12 @@
 "use client";
 
-import { useMemo, type PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 
-import {
-  QueryClient,
-  QueryClientProvider as TanstackQueryProvider,
-} from "@tanstack/react-query";
+import { QueryClientProvider as TanstackQueryProvider } from "@tanstack/react-query";
+
+import { queryClient } from "@/lib/query-client";
 
 export const QueryClientProvider = (props: PropsWithChildren) => {
-  const queryClient = useMemo(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            retry(failureCount) {
-              return failureCount < 2;
-            },
-            refetchOnWindowFocus: false,
-          },
-        },
-      }),
-    []
-  );
-
   return (
     <TanstackQueryProvider client={queryClient}>
       {props.children}

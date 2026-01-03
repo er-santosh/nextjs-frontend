@@ -1,9 +1,13 @@
 "use client";
 
+import Link from "next/link";
+
 import MobileMenu from "@/components/partials/header/mobile-menu";
+import Logo from "@/components/shared/logo";
+import { ThemeSwitcher } from "@/components/shared/theme-switcher";
 import { Button } from "@/components/ui/button";
-import Logo from "@/components/ui/logo";
-import { ThemeSwitcher } from "@/components/ui/theme-switcher";
+
+import { APP_ROUTES } from "@/constants/app-routes";
 
 const navItems = [
   { label: "Features", href: "/#features" },
@@ -39,8 +43,8 @@ export default function Header() {
           <Navigation />
           <div className="flex items-center gap-2">
             <ThemeSwitcher />
-            <Button size="sm" className="hidden sm:inline-flex">
-              Get Started
+            <Button asChild size="sm" className="hidden sm:inline-flex">
+              <Link href={APP_ROUTES.AUTH.LOGIN}>Get Started</Link>
             </Button>
           </div>
         </div>

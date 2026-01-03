@@ -14,7 +14,7 @@ import { FieldGroup } from "@/components/ui/field";
 import {
   INQUIRY_TOPIC_OPTIONS,
   TEAM_SIZE_OPTIONS,
-} from "@/constants/inquiry-options";
+} from "@/constants/choice-options";
 
 import { InquirySchema, type InquiryFormData } from "@/schemas/inquiry";
 

@@ -1,4 +1,4 @@
-import { InfoContent } from "@/components/features/contact/info-content";
+import { InfoContent } from "@/features/contact/components/info-content";
 
 export default function ContactPage() {
   return (
