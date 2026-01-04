@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -18,11 +18,14 @@ import { queryClient } from "@/lib/query-client";
 
 import type { LoginResponse } from "@/types/api/auth";
 
-export function useLoginForm() {
-  const params = useSearchParams();
-  const router = useRouter();
+interface UseLoginFormProps {
+  callbackUrl: string | null;
+}
 
-  const callbackUrl = params.get("callbackUrl");
+export function useLoginForm(
+  { callbackUrl }: UseLoginFormProps = { callbackUrl: null }
+) {
+  const router = useRouter();
 
   const { mutateAsync, isPending } = useApiMutation<LoginResponse, LoginInput>({
     mutationFn: credentials => authService.login(credentials),

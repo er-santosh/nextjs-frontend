@@ -37,7 +37,6 @@ const Logo = ({
         width={width}
         height={height}
         className="h-full max-h-25 w-full max-w-25 rounded-md object-contain"
-        placeholder="blur"
         priority
       />
     </div>

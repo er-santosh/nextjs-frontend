@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, type InputHTMLAttributes, type ReactNode } from "react";
+import { type InputHTMLAttributes, type ReactNode } from "react";
 
 import Image from "next/image";
 
@@ -55,8 +55,7 @@ export function InputField<T extends FieldValues>({
   iconPosition = "start",
   iconClassName = "h-5 w-5 text-muted-foreground",
 }: InputFieldProps<T>) {
-  const generatedId = useId();
-  const inputId = id ?? generatedId;
+  const inputId = id ?? name;
 
   return (
     <Controller

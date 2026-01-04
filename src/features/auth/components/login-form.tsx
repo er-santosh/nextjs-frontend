@@ -20,8 +20,14 @@ import { APP_ROUTES } from "@/constants/app-routes";
 
 import { cn } from "@/lib/utils/classname";
 
-export function LoginForm() {
-  const { form, handleSubmit, isSubmitting } = useLoginForm();
+interface LoginFormProps {
+  callbackUrl: string | null;
+}
+
+export function LoginForm({ callbackUrl }: LoginFormProps) {
+  const { form, handleSubmit, isSubmitting } = useLoginForm({
+    callbackUrl,
+  });
 
   return (
     <div className={cn("flex flex-col gap-6")}>

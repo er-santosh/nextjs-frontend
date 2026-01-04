@@ -1,13 +1,19 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { Contact, Gem } from "lucide-react";
 
-import MobileMenu from "@/components/partials/header/mobile-menu";
 import GetStartedButton from "@/components/shared/get-started-button";
 import Logo from "@/components/shared/logo";
 import { ThemeSwitcher } from "@/components/shared/theme-switcher";
 
 import type { NavItem } from "@/types";
+
+const MobileMenu = dynamic(
+  () => import("@/components/partials/header/mobile-menu"),
+  { ssr: false }
+);
 
 const navItems: NavItem[] = [
   { title: "Pricing", url: "/pricing", icon: Gem },

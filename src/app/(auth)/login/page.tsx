@@ -1,21 +1,18 @@
-import { Suspense } from "react";
-
 import type { Metadata } from "next";
 
 import { LoginForm } from "@/features/auth/components/login-form";
-
-import PageLoader from "@/components/shared/page-loader";
 
 export const metadata: Metadata = {
   title: "Login",
 };
 
-const page = () => {
-  return (
-    <Suspense fallback={<PageLoader />}>
-      <LoginForm />
-    </Suspense>
-  );
+interface LoginPageProps {
+  searchParams: Promise<{ callbackUrl: string | null }>;
+}
+
+const page = async ({ searchParams }: LoginPageProps) => {
+  const callbackUrl = (await searchParams).callbackUrl;
+  return <LoginForm callbackUrl={callbackUrl} />;
 };
 
 export default page;

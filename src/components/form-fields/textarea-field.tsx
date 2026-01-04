@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import {
   type Control,
@@ -49,15 +49,14 @@ export function TextareaField<T extends FieldValues>({
   showCharacterCount = false,
   resize = "vertical",
 }: TextareaFieldProps<T>) {
-  const generatedId = useId();
-  const inputId = id ?? generatedId;
-
   const resizeClasses = {
     none: "resize-none",
     vertical: "resize-y",
     horizontal: "resize-x",
     both: "resize",
   };
+
+  const inputId = id ?? name;
 
   return (
     <Controller

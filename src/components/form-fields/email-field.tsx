@@ -7,8 +7,10 @@ import {
   type InputFieldProps,
 } from "@/components/form-fields/input-field";
 
-interface EmailFieldProps<T extends FieldValues>
-  extends Omit<InputFieldProps<T>, "name"> {
+interface EmailFieldProps<T extends FieldValues> extends Omit<
+  InputFieldProps<T>,
+  "name"
+> {
   name?: InputFieldProps<T>["name"];
 }
 

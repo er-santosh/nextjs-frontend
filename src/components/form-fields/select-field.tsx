@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import {
   type Control,
@@ -53,9 +53,7 @@ export function SelectField<T extends FieldValues>({
   helpText,
   options,
 }: SelectFieldProps<T>) {
-  const generatedId = useId();
-  const inputId = id ?? generatedId;
-
+  const inputId = id ?? name;
   return (
     <Controller
       name={name}
