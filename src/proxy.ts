@@ -7,7 +7,7 @@ import {
 import {
   APP_ROUTES,
   AUTH_ROUTES,
-  PASSWORD_ROUTES,
+  EMAIL_VERIFICATION_ROUTES,
   PUBLIC_ROUTES,
 } from "@/constants/app-routes";
 
@@ -16,7 +16,7 @@ export default async function proxy(request: NextRequest) {
 
   const isPublicRoute = PUBLIC_ROUTES.includes(pathName);
   const isAuthRoute = AUTH_ROUTES.includes(pathName);
-  const isPasswordRoute = PASSWORD_ROUTES.includes(pathName);
+  const isEmailVerificationRoute = EMAIL_VERIFICATION_ROUTES.includes(pathName);
 
   const accessToken = request.cookies.get("accessToken");
   const isAuthenticated = Boolean(accessToken);
@@ -28,8 +28,8 @@ export default async function proxy(request: NextRequest) {
 
   // Handle unauthenticated users
   if (!isAuthenticated) {
-    // Allow access to auth and password routes
-    if (isAuthRoute || isPasswordRoute) {
+    // Allow access to auth and verification routes
+    if (isAuthRoute || isEmailVerificationRoute) {
       return NextResponse.next();
     }
 
@@ -41,8 +41,8 @@ export default async function proxy(request: NextRequest) {
 
   // Handle authenticated users
 
-  // Redirect authenticated users away from auth pages
-  if (isAuthRoute || isPasswordRoute) {
+  // Redirect authenticated users away from auth and verification pages
+  if (isAuthRoute || isEmailVerificationRoute) {
     return NextResponse.redirect(new URL(APP_ROUTES.SITE.ROOT, request.url));
   }
 

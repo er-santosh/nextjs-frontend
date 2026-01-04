@@ -1,9 +1,12 @@
 "use client";
 
+import { useEffect, useEffectEvent, useState } from "react";
+
 import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
+import { toast } from "sonner";
 
 import { useApiMutation } from "@/hooks/api/use-api-mutation";
 
@@ -12,6 +15,7 @@ import { authService } from "@/services/auth";
 import { LoginInputSchema, type LoginInput } from "@/schemas/auth";
 
 import { APP_ROUTES } from "@/constants/app-routes";
+import { API_ERROR_CODES } from "@/constants/error-codes";
 import { AUTH_KEYS } from "@/constants/query-keys";
 
 import { queryClient } from "@/lib/query-client";
@@ -25,6 +29,8 @@ interface UseLoginFormProps {
 export function useLoginForm(
   { callbackUrl }: UseLoginFormProps = { callbackUrl: null }
 ) {
+  const [showVerificationAlert, setShowVerificationAlert] = useState(false);
+  const [unverifiedEmail, setUnverifiedEmail] = useState("");
   const router = useRouter();
 
   const { mutateAsync, isPending } = useApiMutation<LoginResponse, LoginInput>({
@@ -44,6 +50,7 @@ export function useLoginForm(
         router.push(APP_ROUTES.SITE.ROOT);
       }
     },
+    showErrorToast: false,
   });
 
   const form = useForm<LoginInput>({
@@ -54,8 +61,19 @@ export function useLoginForm(
     },
   });
 
+  const email = useWatch({ control: form.control, name: "email" });
+
   const handleSubmit = async (data: LoginInput) => {
-    await mutateAsync(data);
+    await mutateAsync(data, {
+      onError(error) {
+        if (error.response?.data.code === API_ERROR_CODES.EMAIL_NOT_VERIFIED) {
+          setUnverifiedEmail(data.email);
+          setShowVerificationAlert(true);
+        } else {
+          toast.error(error.response?.data.message);
+        }
+      },
+    });
   };
 
   function getSafeCallbackUrl(cbUrl: string | null): string | null {
@@ -79,10 +97,23 @@ export function useLoginForm(
     return null;
   }
 
+  const onEmailChange = useEffectEvent(() => {
+    if (showVerificationAlert && email !== unverifiedEmail) {
+      setShowVerificationAlert(false);
+    }
+  });
+
+  useEffect(() => {
+    onEmailChange();
+  }, [email]);
+
   return {
     form,
     isSubmitting: isPending,
     handleSubmit,
     callbackUrl,
+    showVerificationAlert,
+    setShowVerificationAlert,
+    unverifiedEmail,
   };
 }

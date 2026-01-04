@@ -9,6 +9,8 @@ import type {
   GetCurrentUserResponse,
   LoginResponse,
   RegisterResponse,
+  ResendVerificationEmailResponse,
+  VerifyEmailResponse,
 } from "@/types/api/auth";
 
 class AuthService {
@@ -74,6 +76,29 @@ class AuthService {
     }
 
     return responseData;
+  }
+
+  async resendVerificationEmail(
+    email: string
+  ): Promise<ResendVerificationEmailResponse> {
+    const response =
+      await this.publicRequest.post<ResendVerificationEmailResponse>(
+        "/auth/email-verification/resend",
+        {
+          data: {
+            email,
+          },
+        }
+      );
+    return response.data;
+  }
+
+  async verifyEmail(token: string): Promise<VerifyEmailResponse> {
+    const response = await this.publicRequest.post<VerifyEmailResponse>(
+      `/auth/email-verification/${token}`
+    );
+
+    return response.data;
   }
 
   hasValidSession(): boolean {

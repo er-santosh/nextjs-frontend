@@ -1,3 +1,8 @@
+import type { API_ERROR_CODES } from "@/constants/error-codes";
+
+export type ApiErrorCode =
+  (typeof API_ERROR_CODES)[keyof typeof API_ERROR_CODES];
+
 export interface ValidationError {
   field: string;
   message: string;
@@ -6,6 +11,7 @@ export interface ValidationError {
 export interface ApiResponse<T = unknown> {
   success: boolean;
   message: string;
+  code: ApiErrorCode;
   data?: T;
   errors?: ValidationError[];
 }

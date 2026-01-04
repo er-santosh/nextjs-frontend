@@ -24,3 +24,7 @@ export type GetCurrentUserResponseData = {
 };
 
 export type GetCurrentUserResponse = ApiResponse<GetCurrentUserResponseData>;
+
+export type ResendVerificationEmailResponse = ApiResponse<null>;
+
+export type VerifyEmailResponse = ApiResponse<null>;

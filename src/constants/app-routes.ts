@@ -12,6 +12,9 @@ export const APP_ROUTES = {
     FORGOT_PASSWORD: "/forgot-password",
     RESET_PASSWORD: "/reset-password",
   },
+  VERIFICATION: {
+    VERIFY_EMAIL: "/verify-email",
+  },
   PROTECTED: {
     ACCOUNT: {
       ROOT: "/account",
@@ -24,10 +27,12 @@ export const APP_ROUTES = {
 export const PUBLIC_ROUTES = extractRoutes(APP_ROUTES.SITE);
 
 // Authentication routes (lOGIN, rEGISTER)
-export const AUTH_ROUTES = [APP_ROUTES.AUTH.LOGIN, APP_ROUTES.AUTH.REGISTER];
-
-// Password management routes
-export const PASSWORD_ROUTES = [
+export const AUTH_ROUTES = [
+  APP_ROUTES.AUTH.LOGIN,
+  APP_ROUTES.AUTH.REGISTER,
   APP_ROUTES.AUTH.FORGOT_PASSWORD,
   APP_ROUTES.AUTH.RESET_PASSWORD,
 ];
+
+// email verification routes
+export const EMAIL_VERIFICATION_ROUTES = [APP_ROUTES.VERIFICATION.VERIFY_EMAIL];

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 
+import ResendVerificationEmailAlert from "@/features/auth/components/resend-verification-email-alert";
 import { useLoginForm } from "@/features/auth/hooks/use-login-form";
 
 import { EmailField } from "@/components/form-fields/email-field";
@@ -25,7 +26,14 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ callbackUrl }: LoginFormProps) {
-  const { form, handleSubmit, isSubmitting } = useLoginForm({
+  const {
+    form,
+    handleSubmit,
+    isSubmitting,
+    showVerificationAlert,
+    setShowVerificationAlert,
+    unverifiedEmail,
+  } = useLoginForm({
     callbackUrl,
   });
 
@@ -37,6 +45,11 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
           <CardDescription>Login with your account</CardDescription>
         </CardHeader>
         <CardContent>
+          <ResendVerificationEmailAlert
+            show={showVerificationAlert}
+            email={unverifiedEmail}
+            onDismiss={() => setShowVerificationAlert(false)}
+          />
           <form onSubmit={form.handleSubmit(handleSubmit)} noValidate>
             <FieldGroup>
               <EmailField
