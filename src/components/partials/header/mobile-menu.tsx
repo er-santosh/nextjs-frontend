@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { Menu, Sparkles, Code2, BookOpen } from "lucide-react";
+import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -14,20 +14,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-interface NavItem {
-  href: string;
-  label: string;
-}
+import type { NavItem } from "@/types";
 
 interface MobileMenuProps {
   navItems: NavItem[];
 }
-
-const iconMap: Record<string, typeof Sparkles> = {
-  "#features": Sparkles,
-  "#tech": Code2,
-  "#docs": BookOpen,
-};
 
 export default function MobileMenu({ navItems }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
@@ -50,22 +41,21 @@ export default function MobileMenu({ navItems }: MobileMenuProps) {
           <span className="sr-only">Toggle menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-[300px] sm:w-[350px]">
+      <SheetContent side="left" className="w-75 sm:w-87.5">
         <SheetHeader>
           <SheetTitle>Navigation</SheetTitle>
         </SheetHeader>
         <Separator className="my-4" />
         <nav className="flex flex-col gap-2">
           {navItems.map(item => {
-            const Icon = iconMap[item.href] ?? Sparkles;
             return (
               <button
-                key={item.href}
-                onClick={() => handleNavClick(item.href)}
+                key={item.url}
+                onClick={() => handleNavClick(item.url)}
                 className="text-muted-foreground hover:bg-accent hover:text-foreground flex items-center gap-3 rounded-lg px-3 py-3 text-left transition-colors"
               >
-                <Icon className="h-5 w-5" />
-                <span className="text-base font-medium">{item.label}</span>
+                {item.icon && <item.icon className="h-4 w-4" />}{" "}
+                <span className="text-base font-medium">{item.title}</span>
               </button>
             );
           })}

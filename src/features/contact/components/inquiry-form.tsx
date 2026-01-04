@@ -11,12 +11,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
 
+import { InquirySchema, type InquiryFormData } from "@/schemas/inquiry";
+
 import {
   INQUIRY_TOPIC_OPTIONS,
   TEAM_SIZE_OPTIONS,
 } from "@/constants/choice-options";
-
-import { InquirySchema, type InquiryFormData } from "@/schemas/inquiry";
 
 const InquiryForm = () => {
   const { control, handleSubmit } = useForm<InquiryFormData>({

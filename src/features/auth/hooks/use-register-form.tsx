@@ -1,18 +1,18 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { useRouter } from "next/navigation";
+import { useApiMutation } from "@/hooks/api/use-api-mutation";
 
 import { authService } from "@/services/auth";
 
-import { useApiMutation } from "@/hooks/api/use-api-mutation";
+import { RegisterInputSchema, type RegisterInput } from "@/schemas/auth";
 
 import { APP_ROUTES } from "@/constants/app-routes";
-
-import { RegisterInputSchema, type RegisterInput } from "@/schemas/auth";
 
 import type { RegisterResponse } from "@/types/api/auth";
 

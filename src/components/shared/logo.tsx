@@ -3,9 +3,9 @@ import Link from "next/link";
 
 import { appConfig } from "@/config/app";
 
-import { cn } from "@/lib/utils/classname";
-
 import { APP_ROUTES } from "@/constants/app-routes";
+
+import { cn } from "@/lib/utils/classname";
 
 import logo from "@/public/assets/images/logo.png";
 
@@ -36,7 +36,7 @@ const Logo = ({
         alt="Logo"
         width={width}
         height={height}
-        className="h-full max-h-[100px] w-full max-w-[100px] rounded-md object-contain"
+        className="h-full max-h-25 w-full max-w-25 rounded-md object-contain"
         placeholder="blur"
         priority
       />

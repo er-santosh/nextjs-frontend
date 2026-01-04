@@ -13,9 +13,9 @@ export const APP_ROUTES = {
     RESET_PASSWORD: "/reset-password",
   },
   PROTECTED: {
-    DASHBOARD: "/dashboard",
-    ADMIN: {
-      ROOT: "/admin",
+    ACCOUNT: {
+      ROOT: "/account",
+      SECURITY: "/account/security",
     },
   },
 };

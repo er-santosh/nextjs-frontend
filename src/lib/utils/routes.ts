@@ -1,23 +1,77 @@
-export function matchesRoute(pathname: string, routePattern: string): boolean {
-  if (pathname === routePattern) {
-    return true;
+import type { RouteMatchStrategy, SidebarItem } from "@/types";
+
+export interface RouteMatchOptions {
+  strategy?: RouteMatchStrategy;
+  pattern?: RegExp;
+  customMatcher?: (currentPath: string, itemUrl: string) => boolean;
+}
+
+/**
+ * Checks if the current path matches the item URL based on the strategy
+ */
+export function matchesRoute(
+  currentPath: string,
+  itemUrl: string,
+  options: RouteMatchOptions = {}
+): boolean {
+  const { strategy = "prefix", pattern, customMatcher } = options;
+
+  // Normalize paths
+  const normalizedCurrent = normalizePath(currentPath);
+  const normalizedItem = normalizePath(itemUrl);
+
+  switch (strategy) {
+    case "exact":
+      return normalizedCurrent === normalizedItem;
+
+    case "prefix":
+      return (
+        normalizedCurrent === normalizedItem ||
+        normalizedCurrent.startsWith(`${normalizedItem}/`)
+      );
+
+    case "pattern":
+      if (!pattern) {
+        return false;
+      }
+      return pattern.test(normalizedCurrent);
+
+    case "custom":
+      if (!customMatcher) {
+        return false;
+      }
+      return customMatcher(currentPath, itemUrl);
+
+    default:
+      return false;
   }
+}
 
-  const routeSegments = routePattern.split("/").filter(Boolean);
-  const pathSegments = pathname.split("/").filter(Boolean);
+/**
+ * Normalize path by removing trailing slashes and ensuring leading slash
+ */
+function normalizePath(path: string): string {
+  if (!path) return "/";
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  return normalized.endsWith("/") && normalized.length > 1
+    ? normalized.slice(0, -1)
+    : normalized;
+}
 
-  if (routeSegments.length >= 2 && pathname.startsWith(`${routePattern}/`)) {
-    return true;
-  }
-
-  // Match segment by segment
-  if (routeSegments.length !== pathSegments.length) {
-    return false;
-  }
-
-  return routeSegments.every((segment, i) => {
-    return segment.startsWith(":") || segment === pathSegments[i];
-  });
+/**
+ * Check if any child item is active
+ */
+export function hasActiveChild(
+  currentPath: string,
+  items: SidebarItem[] = []
+): boolean {
+  return items.some(item =>
+    matchesRoute(currentPath, item.url, {
+      strategy: item.matchStrategy,
+      pattern: item.matchPattern,
+      customMatcher: item.customMatcher,
+    })
+  );
 }
 
 export const extractRoutes = (obj: unknown): string[] => {
@@ -33,8 +87,3 @@ export const extractRoutes = (obj: unknown): string[] => {
 
   return routes;
 };
-
-export const withPrefix = <T extends string, P extends string>(
-  path: T,
-  prefix: P
-): `${P}${T}` => `${prefix}${path}` as `${P}${T}`;

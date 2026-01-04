@@ -137,19 +137,22 @@ const eslintConfig = defineConfig([
         "error",
         {
           groups: [
-            "builtin",
-            "external",
-            "internal",
-            ["parent", "sibling"],
-            "index",
-            "object",
+            "builtin", // Node.js built-in modules
+            "external", // External npm packages
+            "internal", // Internal aliases (@/)
+            ["parent", "sibling"], // Relative imports (../, ./)
+            "index", // Index imports (./)
+            "object", // Object imports
+            // "type", // Type imports (TypeScript)
           ],
           pathGroups: [
+            // 1. React - first priority
             {
               pattern: "react",
-              group: "builtin",
+              group: "external",
               position: "before",
             },
+            // 2. Next.js libraries - second priority
             {
               pattern: "next",
               group: "external",
@@ -158,7 +161,30 @@ const eslintConfig = defineConfig([
             {
               pattern: "next/**",
               group: "external",
-              position: "after",
+              position: "before",
+            },
+            // 3. Other external libraries will fall here naturally
+
+            // 4. Internal imports - in your specified order
+            {
+              pattern: "@/providers/**",
+              group: "internal",
+              position: "before",
+            },
+            {
+              pattern: "@/features/**",
+              group: "internal",
+              position: "before",
+            },
+            {
+              pattern: "@/components/**",
+              group: "internal",
+              position: "before",
+            },
+            {
+              pattern: "@/hooks/**",
+              group: "internal",
+              position: "before",
             },
             {
               pattern: "@/services/**",
@@ -166,54 +192,37 @@ const eslintConfig = defineConfig([
               position: "before",
             },
             {
-              pattern: "@/providers/**",
+              pattern: "@/schemas/**",
               group: "internal",
-              position: "after",
-            },
-            {
-              pattern: "@/components/**",
-              group: "internal",
-              position: "after",
-            },
-            {
-              pattern: "@/hooks/**",
-              group: "internal",
-              position: "after",
+              position: "before",
             },
             {
               pattern: "@/config/**",
               group: "internal",
-              position: "after",
-            },
-            {
-              pattern: "@/lib/**",
-              group: "internal",
-              position: "after",
+              position: "before",
             },
             {
               pattern: "@/constants/**",
               group: "internal",
-              position: "after",
+              position: "before",
             },
             {
-              pattern: "@/schemas/**",
+              pattern: "@/lib/**",
               group: "internal",
-              position: "after",
+              position: "before",
             },
             {
               pattern: "@/types/**",
               group: "internal",
-              position: "after",
-            },
-            {
-              pattern: "@/public/**",
-              group: "internal",
-              position: "after",
+              position: "before",
             },
           ],
-          pathGroupsExcludedImportTypes: ["react", "next"],
+          pathGroupsExcludedImportTypes: ["react"],
           "newlines-between": "always",
-          alphabetize: { order: "asc", caseInsensitive: true },
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true,
+          },
         },
       ],
 

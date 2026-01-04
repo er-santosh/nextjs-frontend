@@ -1,8 +1,8 @@
 "use client";
 
-import { authService } from "@/services/auth";
-
 import { useApiQuery } from "@/hooks/api/use-api-query";
+
+import { authService } from "@/services/auth";
 
 import { AUTH_KEYS } from "@/constants/query-keys";
 

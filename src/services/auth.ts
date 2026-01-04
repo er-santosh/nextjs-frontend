@@ -1,9 +1,9 @@
 import { AuthenticatedRequest } from "@/services/requests/authenticated";
 import { UnauthenticatedRequest } from "@/services/requests/unauthenticated";
 
-import { CookieStorage } from "@/lib/cookie-storage";
-
 import type { LoginInput, RegisterInput } from "@/schemas/auth";
+
+import { CookieStorage } from "@/lib/cookie-storage";
 
 import type {
   GetCurrentUserResponse,

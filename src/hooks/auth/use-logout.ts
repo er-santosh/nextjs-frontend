@@ -2,14 +2,14 @@
 
 import { useRouter } from "next/navigation";
 
-import { authService } from "@/services/auth";
-
 import { useApiMutation } from "@/hooks/api/use-api-mutation";
 
-import { queryClient } from "@/lib/query-client";
+import { authService } from "@/services/auth";
 
 import { APP_ROUTES } from "@/constants/app-routes";
 import { AUTH_KEYS } from "@/constants/query-keys";
+
+import { queryClient } from "@/lib/query-client";
 
 export function useLogout() {
   const router = useRouter();

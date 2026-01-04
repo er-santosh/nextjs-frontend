@@ -1,5 +1,4 @@
-import { ArrowRight } from "lucide-react";
-
+import GetStartedButton from "@/components/shared/get-started-button";
 import { Button } from "@/components/ui/button";
 
 export default function HeroSection() {
@@ -25,27 +24,10 @@ export default function HeroSection() {
         </p>
 
         <div className="flex flex-col justify-center gap-4 sm:flex-row">
-          <Button size="lg" className="group">
-            Get Started
-            <ArrowRight className="ml-2 h-4 w-4 transform transition-all group-hover:translate-x-2" />
-          </Button>
+          <GetStartedButton size="lg" />
           <Button size="lg" variant="outline">
             View Documentation
           </Button>
-        </div>
-
-        {/* Tech stack badges */}
-        <div className="mt-12 flex flex-wrap justify-center gap-3">
-          {["tRPC", "Better Auth", "Prisma", "Tailwind", "shadcn/ui"].map(
-            tech => (
-              <span
-                key={tech}
-                className="bg-card text-foreground border-border rounded-full border px-4 py-2 text-sm font-medium"
-              >
-                {tech}
-              </span>
-            )
-          )}
         </div>
       </div>
     </section>

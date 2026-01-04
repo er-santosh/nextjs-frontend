@@ -6,9 +6,9 @@ import AppProvider from "@/providers/app-provider";
 
 import { seoConfig } from "@/config/seo";
 
-import { cn } from "@/lib/utils/classname";
-
 import { FONT_POPPINS } from "@/constants/next-fonts";
+
+import { cn } from "@/lib/utils/classname";
 
 import "./globals.css";
 

@@ -1,18 +1,17 @@
 "use client";
 
-import Link from "next/link";
+import { Contact, Gem } from "lucide-react";
 
 import MobileMenu from "@/components/partials/header/mobile-menu";
+import GetStartedButton from "@/components/shared/get-started-button";
 import Logo from "@/components/shared/logo";
 import { ThemeSwitcher } from "@/components/shared/theme-switcher";
-import { Button } from "@/components/ui/button";
 
-import { APP_ROUTES } from "@/constants/app-routes";
+import type { NavItem } from "@/types";
 
-const navItems = [
-  { label: "Features", href: "/#features" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Contact", href: "/contact" },
+const navItems: NavItem[] = [
+  { title: "Pricing", url: "/pricing", icon: Gem },
+  { title: "Contact", url: "/contact", icon: Contact },
 ];
 
 function Navigation() {
@@ -20,11 +19,11 @@ function Navigation() {
     <nav className="hidden gap-8 md:flex">
       {navItems.map(item => (
         <a
-          key={item.href}
-          href={item.href}
+          key={item.url}
+          href={item.url}
           className="text-muted-foreground hover:text-foreground text-sm transition"
         >
-          {item.label}
+          {item.title}
         </a>
       ))}
     </nav>
@@ -43,9 +42,7 @@ export default function Header() {
           <Navigation />
           <div className="flex items-center gap-2">
             <ThemeSwitcher />
-            <Button asChild size="sm" className="hidden sm:inline-flex">
-              <Link href={APP_ROUTES.AUTH.LOGIN}>Get Started</Link>
-            </Button>
+            <GetStartedButton className="hidden sm:inline-flex" />
           </div>
         </div>
       </div>

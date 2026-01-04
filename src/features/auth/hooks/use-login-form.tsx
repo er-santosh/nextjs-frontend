@@ -1,20 +1,20 @@
 "use client";
 
+import { useRouter, useSearchParams } from "next/navigation";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useApiMutation } from "@/hooks/api/use-api-mutation";
 
 import { authService } from "@/services/auth";
 
-import { useApiMutation } from "@/hooks/api/use-api-mutation";
-
-import { queryClient } from "@/lib/query-client";
+import { LoginInputSchema, type LoginInput } from "@/schemas/auth";
 
 import { APP_ROUTES } from "@/constants/app-routes";
 import { AUTH_KEYS } from "@/constants/query-keys";
 
-import { LoginInputSchema, type LoginInput } from "@/schemas/auth";
+import { queryClient } from "@/lib/query-client";
 
 import type { LoginResponse } from "@/types/api/auth";
 
@@ -31,14 +31,14 @@ export function useLoginForm() {
         queryKey: AUTH_KEYS.currentUser(),
       });
 
-      router.push(APP_ROUTES.PROTECTED.DASHBOARD);
+      router.push(APP_ROUTES.SITE.ROOT);
 
       const safeCallbackUrl = getSafeCallbackUrl(callbackUrl);
 
       if (safeCallbackUrl) {
         router.push(safeCallbackUrl);
       } else {
-        router.push(APP_ROUTES.PROTECTED.DASHBOARD);
+        router.push(APP_ROUTES.SITE.ROOT);
       }
     },
   });

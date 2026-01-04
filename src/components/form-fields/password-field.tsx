@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 
+import Link from "next/link";
+
 import { Eye, EyeOff } from "lucide-react";
 import { type FieldValues } from "react-hook-form";
-
-import Link from "next/link";
 
 import {
   InputField,
