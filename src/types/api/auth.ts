@@ -13,6 +13,8 @@ export type LoginResponseData = {
 
 export type LoginResponse = ApiResponse<LoginResponseData>;
 
+export type LogoutResponse = ApiResponse<null>;
+
 export type RefreshTokenResponseData = {
   tokens: AuthTokens;
 };

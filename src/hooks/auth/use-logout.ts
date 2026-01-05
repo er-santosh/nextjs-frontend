@@ -11,6 +11,8 @@ import { AUTH_KEYS } from "@/constants/query-keys";
 
 import { queryClient } from "@/lib/query-client";
 
+import type { LogoutResponse } from "@/types/api/auth";
+
 interface UseLogoutOptions {
   onLogoutStart?: () => void;
   onLogoutSuccess?: () => void;
@@ -24,7 +26,7 @@ export function useLogout({
 }: UseLogoutOptions = {}) {
   const router = useRouter();
 
-  const { mutateAsync, isPending } = useApiMutation<void, void>({
+  const { mutateAsync, isPending } = useApiMutation<LogoutResponse, void>({
     mutationFn: () => authService.logout(),
     onSuccess: () => {
       queryClient.removeQueries({ queryKey: AUTH_KEYS.all });

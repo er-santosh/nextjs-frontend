@@ -13,6 +13,7 @@ import type {
   ChangePasswordResponse,
   GetCurrentUserResponse,
   LoginResponse,
+  LogoutResponse,
   RegisterResponse,
   ResendVerificationEmailResponse,
   UpdateProfileResponse,
@@ -63,9 +64,12 @@ class AuthService {
     return responseData;
   }
 
-  async logout(): Promise<void> {
+  async logout(): Promise<LogoutResponse> {
     try {
-      await this.protectedRequest.post("/auth/logout");
+      const response =
+        await this.protectedRequest.post<LogoutResponse>("/auth/logout");
+
+      return response.data;
     } finally {
       CookieStorage.clearTokens();
     }

@@ -56,21 +56,19 @@ export function EmailVerificationStatusCard({
   const message = errorMessage ?? config.defaultMessage;
 
   return (
-    <div className="bg-muted flex min-h-screen items-center justify-center px-4">
-      <Card className="max-w-md">
-        <CardContent className="text-center">
-          <Icon className={`mx-auto mb-4 h-16 w-16 ${config.iconColor}`} />
-          <h1 className="mb-2 text-2xl font-bold text-gray-900">
-            {config.title}
-          </h1>
-          <p className="mb-6 text-gray-600">{message}</p>
-        </CardContent>
-        <CardFooter>
-          <Button asChild className="w-full">
-            <Link href={redirectUrl}>{redirectLabel}</Link>
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
+    <Card className="max-w-md">
+      <CardContent className="text-center">
+        <Icon className={`mx-auto mb-4 h-16 w-16 ${config.iconColor}`} />
+        <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-slate-200">
+          {config.title}
+        </h1>
+        <p className="mb-6 text-gray-600 dark:text-slate-50">{message}</p>
+      </CardContent>
+      <CardFooter>
+        <Button asChild className="w-full">
+          <Link href={redirectUrl}>{redirectLabel}</Link>
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }

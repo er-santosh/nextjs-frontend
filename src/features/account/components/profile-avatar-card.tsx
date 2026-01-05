@@ -21,13 +21,13 @@ const ProfileAvatarCard = () => {
         <Button
           variant="outline"
           size="sm"
-          className="text-primary border-primary hover:text-primary hover:bg-primary/10"
+          className="text-primary border-primary dark:border-primary hover:text-primary hover:bg-primary/10 dark:hover:text-primary dark:hover:bg-primary/10"
         >
           Change Photo
         </Button>
         <Button
           variant="outline"
-          className="text-destructive border-destructive hover:text-destructive hover:bg-destructive/10"
+          className="text-destructive border-destructive hover:text-destructive hover:bg-destructive/10 dark:border-destructive dark:hover:text-destructive dark:hover:bg-destructive/10"
         >
           Remove
         </Button>
