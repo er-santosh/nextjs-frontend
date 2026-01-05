@@ -7,6 +7,7 @@ import { authService } from "@/services/auth";
 import { AUTH_KEYS } from "@/constants/query-keys";
 
 import type { GetCurrentUserResponse } from "@/types/api/auth";
+import type { User } from "@/types/api/shared";
 
 export function useCurrentUser() {
   const hasSession = authService.hasValidSession();
@@ -20,5 +21,16 @@ export function useCurrentUser() {
     staleTime: Infinity,
   });
 
-  return { user: data?.data?.user, ...other };
+  const user = data?.data?.user;
+
+  const isAuthenticated = Boolean(user);
+
+  return {
+    user: {
+      ...user,
+      name: `${user?.first_name} ${user?.last_name}`,
+    } as User | undefined,
+    isAuthenticated,
+    ...other,
+  };
 }

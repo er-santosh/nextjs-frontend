@@ -2,14 +2,20 @@ import { AuthenticatedRequest } from "@/services/requests/authenticated";
 import { UnauthenticatedRequest } from "@/services/requests/unauthenticated";
 
 import type { LoginInput, RegisterInput } from "@/schemas/auth";
+import type {
+  ChangePasswordInput,
+  UpdateProfileInput,
+} from "@/schemas/profile";
 
 import { CookieStorage } from "@/lib/cookie-storage";
 
 import type {
+  ChangePasswordResponse,
   GetCurrentUserResponse,
   LoginResponse,
   RegisterResponse,
   ResendVerificationEmailResponse,
+  UpdateProfileResponse,
   VerifyEmailResponse,
 } from "@/types/api/auth";
 
@@ -76,6 +82,32 @@ class AuthService {
     }
 
     return responseData;
+  }
+
+  async updateProfile(
+    payload: UpdateProfileInput
+  ): Promise<UpdateProfileResponse> {
+    const response = await this.protectedRequest.patch<UpdateProfileResponse>(
+      `/auth/me`,
+      {
+        data: payload,
+      }
+    );
+
+    return response.data;
+  }
+
+  async changePassword(
+    payload: ChangePasswordInput
+  ): Promise<ChangePasswordResponse> {
+    const response = await this.protectedRequest.patch<ChangePasswordResponse>(
+      `/auth/password`,
+      {
+        data: payload,
+      }
+    );
+
+    return response.data;
   }
 
   async resendVerificationEmail(

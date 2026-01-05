@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 import { Contact, Gem } from "lucide-react";
 
@@ -24,13 +25,13 @@ function Navigation() {
   return (
     <nav className="hidden gap-8 md:flex">
       {navItems.map(item => (
-        <a
+        <Link
           key={item.url}
           href={item.url}
           className="text-muted-foreground hover:text-foreground text-sm transition"
         >
           {item.title}
-        </a>
+        </Link>
       ))}
     </nav>
   );

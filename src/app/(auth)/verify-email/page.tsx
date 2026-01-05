@@ -1,6 +1,6 @@
 import type { AxiosError } from "axios";
 
-import { EmailVerificationStatusCard } from "@/features/verification/components/email-verification-card";
+import { EmailVerificationStatusCard } from "@/features/auth/components/email-verification-card";
 
 import { authService } from "@/services/auth";
 

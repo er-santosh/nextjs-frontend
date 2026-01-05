@@ -1,5 +1,3 @@
-import { toast } from "sonner";
-
 import { useApiMutation } from "@/hooks/api/use-api-mutation";
 
 import { authService } from "@/services/auth";
@@ -12,9 +10,6 @@ const useResendVerificationEmail = () => {
     string
   >({
     mutationFn: email => authService.resendVerificationEmail(email),
-    onSuccess(data) {
-      toast.success(data.message);
-    },
   });
 
   const resend = async (email: string) => {

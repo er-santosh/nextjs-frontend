@@ -11,14 +11,15 @@ export const APP_ROUTES = {
     REGISTER: "/register",
     FORGOT_PASSWORD: "/forgot-password",
     RESET_PASSWORD: "/reset-password",
-  },
-  VERIFICATION: {
     VERIFY_EMAIL: "/verify-email",
   },
   PROTECTED: {
-    ACCOUNT: {
-      ROOT: "/account",
-      SECURITY: "/account/security",
+    DASHBOARD: "/dashboard",
+    SETTINGS: {
+      ACCOUNT: {
+        ROOT: "/settings/account",
+        SECURITY: "/settings/account/security",
+      },
     },
   },
 };
@@ -32,7 +33,5 @@ export const AUTH_ROUTES = [
   APP_ROUTES.AUTH.REGISTER,
   APP_ROUTES.AUTH.FORGOT_PASSWORD,
   APP_ROUTES.AUTH.RESET_PASSWORD,
+  APP_ROUTES.AUTH.VERIFY_EMAIL,
 ];
-
-// email verification routes
-export const EMAIL_VERIFICATION_ROUTES = [APP_ROUTES.VERIFICATION.VERIFY_EMAIL];

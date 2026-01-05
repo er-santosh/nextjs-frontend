@@ -1,5 +1,8 @@
 "use client";
 
+import ProfileAvatarCard from "@/features/account/components/profile-avatar-card";
+import ProfileForm from "@/features/account/components/profile-form";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -14,8 +17,8 @@ const PublicProfileCard = () => {
     <Card>
       <CardContent>
         <div className="flex flex-col gap-8 md:flex-row">
-          {/* <ProfileAvatarCard /> */}
-          {/* <ProfileForm /> */}
+          <ProfileAvatarCard />
+          <ProfileForm />
         </div>
       </CardContent>
     </Card>

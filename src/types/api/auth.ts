@@ -28,3 +28,11 @@ export type GetCurrentUserResponse = ApiResponse<GetCurrentUserResponseData>;
 export type ResendVerificationEmailResponse = ApiResponse<null>;
 
 export type VerifyEmailResponse = ApiResponse<null>;
+
+export type UpdateProfileResponseData = {
+  user: User;
+};
+
+export type UpdateProfileResponse = ApiResponse<UpdateProfileResponseData>;
+
+export type ChangePasswordResponse = ApiResponse<null>;

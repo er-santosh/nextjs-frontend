@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 import { useApiMutation } from "@/hooks/api/use-api-mutation";
 
@@ -33,10 +32,7 @@ export function useRegisterForm() {
     RegisterInput
   >({
     mutationFn: userData => authService.register(userData),
-    showErrorToast: true,
-    showSuccessToast: true,
-    onSuccess: data => {
-      toast.success(data.message);
+    onSuccess: () => {
       router.push(APP_ROUTES.AUTH.LOGIN);
     },
   });

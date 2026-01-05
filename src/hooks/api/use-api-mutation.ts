@@ -40,7 +40,7 @@ export function useApiMutation<
 ): UseMutationResult<TData, AxiosError<ApiResponse>, TVariables, TContext> {
   const {
     showErrorToast = true,
-    showSuccessToast = false,
+    showSuccessToast = true,
     successMessage,
     onError,
     onSuccess,
@@ -59,8 +59,9 @@ export function useApiMutation<
       onError?.(...args);
     },
     onSuccess: (...args) => {
-      if (showSuccessToast && successMessage) {
-        toast.success(successMessage);
+      if (showSuccessToast) {
+        const response = args[0] as ApiResponse | undefined;
+        toast.success(response?.message ?? successMessage);
       }
       onSuccess?.(...args);
     },

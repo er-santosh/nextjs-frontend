@@ -41,7 +41,9 @@ const Logo = ({
       />
     </div>
     {showText && (
-      <span className="text-foreground font-bold">{appConfig.name}</span>
+      <span className="text-foreground font-bold group-data-[collapsible=icon]:hidden">
+        {appConfig.name}
+      </span>
     )}
   </Link>
 );

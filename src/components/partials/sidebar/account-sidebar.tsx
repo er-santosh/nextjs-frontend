@@ -20,13 +20,13 @@ const menuItems: MenuItem[] = [
     items: [
       {
         title: "Profile",
-        url: APP_ROUTES.PROTECTED.ACCOUNT.ROOT,
+        url: APP_ROUTES.PROTECTED.SETTINGS.ACCOUNT.ROOT,
         icon: User,
         matchStrategy: "exact",
       },
       {
         title: "Security",
-        url: APP_ROUTES.PROTECTED.ACCOUNT.SECURITY,
+        url: APP_ROUTES.PROTECTED.SETTINGS.ACCOUNT.SECURITY,
         icon: Lock,
         matchStrategy: "exact",
       },

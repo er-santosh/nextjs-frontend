@@ -16,9 +16,8 @@ import { LoginInputSchema, type LoginInput } from "@/schemas/auth";
 
 import { APP_ROUTES } from "@/constants/app-routes";
 import { API_ERROR_CODES } from "@/constants/error-codes";
-import { AUTH_KEYS } from "@/constants/query-keys";
 
-import { queryClient } from "@/lib/query-client";
+import { setCurrentUserData } from "@/lib/query-client";
 
 import type { LoginResponse } from "@/types/api/auth";
 
@@ -35,19 +34,15 @@ export function useLoginForm(
 
   const { mutateAsync, isPending } = useApiMutation<LoginResponse, LoginInput>({
     mutationFn: credentials => authService.login(credentials),
-    async onSuccess() {
-      await queryClient.invalidateQueries({
-        queryKey: AUTH_KEYS.currentUser(),
-      });
-
-      router.push(APP_ROUTES.SITE.ROOT);
+    async onSuccess(data) {
+      setCurrentUserData(data.data?.user);
 
       const safeCallbackUrl = getSafeCallbackUrl(callbackUrl);
 
       if (safeCallbackUrl) {
         router.push(safeCallbackUrl);
       } else {
-        router.push(APP_ROUTES.SITE.ROOT);
+        router.push(APP_ROUTES.PROTECTED.DASHBOARD);
       }
     },
     showErrorToast: false,

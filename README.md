@@ -1,4 +1,4 @@
-# Next.js Starter
+# Next.js Frontend
 
 A modern, production-ready Next.js starter template with comprehensive tooling.
 
