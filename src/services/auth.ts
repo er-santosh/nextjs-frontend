@@ -16,6 +16,8 @@ import type {
   LogoutResponse,
   RegisterResponse,
   ResendVerificationEmailResponse,
+  ResetPasswordResponse,
+  SendResetPasswordEmailResponse,
   UpdateProfileResponse,
   VerifyEmailResponse,
 } from "@/types/api/auth";
@@ -108,6 +110,34 @@ class AuthService {
       `/auth/password`,
       {
         data: payload,
+      }
+    );
+
+    return response.data;
+  }
+
+  async sendResetPasswordEmail(
+    email: string
+  ): Promise<SendResetPasswordEmailResponse> {
+    const response =
+      await this.publicRequest.post<SendResetPasswordEmailResponse>(
+        `/auth/forgot-password`,
+        {
+          data: { email },
+        }
+      );
+
+    return response.data;
+  }
+
+  async resetPassword(
+    token: string,
+    newPassword: string
+  ): Promise<ResetPasswordResponse> {
+    const response = await this.publicRequest.post<ResetPasswordResponse>(
+      `/auth/reset-password/${token}`,
+      {
+        data: { newPassword },
       }
     );
 

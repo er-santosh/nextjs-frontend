@@ -42,12 +42,12 @@ export const ForgotPasswordInputSchema = object({
 export type ForgotPasswordInput = z.infer<typeof ForgotPasswordInputSchema>;
 
 export const ResetPasswordInputSchema = object({
-  password: getPasswordSchema({ fieldName: "password" }),
+  newPassword: getPasswordSchema({ fieldName: "newPassword" }),
   confirmPassword: getPasswordSchema({
     fieldName: "confirmPassword",
     requireStrength: false,
   }),
-}).refine(data => data.password === data.confirmPassword, {
+}).refine(data => data.newPassword === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
 });

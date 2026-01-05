@@ -38,3 +38,7 @@ export type UpdateProfileResponseData = {
 export type UpdateProfileResponse = ApiResponse<UpdateProfileResponseData>;
 
 export type ChangePasswordResponse = ApiResponse<null>;
+
+export type SendResetPasswordEmailResponse = ApiResponse<null>;
+
+export type ResetPasswordResponse = ApiResponse<null>;
