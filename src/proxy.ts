@@ -22,7 +22,7 @@ export default async function proxy(request: NextRequest) {
 
   // Handle unauthenticated users
   if (!isAuthenticated) {
-    // Allow access to auth and verification routes
+    // Allow access to auth routes
     if (isAuthRoute) {
       return NextResponse.next();
     }
@@ -35,7 +35,7 @@ export default async function proxy(request: NextRequest) {
 
   // Handle authenticated users
 
-  // Redirect authenticated users away from auth and verification pages
+  // Redirect authenticated users away from auth pages
   if (isAuthRoute) {
     return NextResponse.redirect(
       new URL(APP_ROUTES.PROTECTED.DASHBOARD, request.url)

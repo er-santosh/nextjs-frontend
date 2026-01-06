@@ -4,6 +4,8 @@ import { BaseRequest } from "@/services/requests/base";
 
 import { env } from "@/config/env";
 
+import { APP_ROUTES } from "@/constants/app-routes";
+
 import { CookieStorage } from "@/lib/cookie-storage";
 import { TokenRefreshQueue } from "@/lib/utils/token-refresh-queue";
 
@@ -59,10 +61,11 @@ export class AuthenticatedRequest extends BaseRequest {
               throw new Error("No refresh token available");
             }
 
-            const response = await this.client.post<RefreshTokenResponse>(
-              "/auth/refresh",
-              { refreshToken }
-            );
+            const response =
+              await this.refreshClient.post<RefreshTokenResponse>(
+                "/auth/refresh",
+                { refreshToken }
+              );
 
             const newTokens = response.data.data?.tokens;
 
@@ -78,7 +81,7 @@ export class AuthenticatedRequest extends BaseRequest {
             this.refreshQueue.setIsRefreshing(false);
             this.refreshQueue.notifySubscribers();
 
-            return this.client(originalRequest);
+            return this.refreshClient(originalRequest);
           } catch (refreshError) {
             this.refreshQueue.setIsRefreshing(false);
             this.refreshQueue.notifySubscribers(refreshError as Error);
@@ -88,7 +91,7 @@ export class AuthenticatedRequest extends BaseRequest {
             if (typeof window !== "undefined") {
               const currentPath = window.location.pathname;
               const callbackUrl = encodeURIComponent(currentPath);
-              window.location.href = `/login?callbackUrl=${callbackUrl}`;
+              window.location.href = `${APP_ROUTES.AUTH.LOGIN}?callbackUrl=${callbackUrl}`;
             }
 
             return Promise.reject(refreshError);

@@ -52,9 +52,16 @@ export interface DeleteRequestOptions {
 
 export abstract class BaseRequest {
   protected client: AxiosInstance;
+  protected refreshClient: AxiosInstance;
 
   constructor(baseURL: string, withCredentials = false) {
     this.client = axios.create({
+      baseURL,
+      withCredentials,
+      headers: DEFAULT_HEADERS,
+    });
+
+    this.refreshClient = axios.create({
       baseURL,
       withCredentials,
       headers: DEFAULT_HEADERS,
