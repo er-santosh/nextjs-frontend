@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 
 export const TOKEN_EXPIRY = {
-  ACCESS_TOKEN_IN_DAYS: 15 / (24 * 60),
+  ACCESS_TOKEN_IN_DAYS: 1,
   REFRESH_TOKEN_IN_DAYS: 7,
 } as const;
 

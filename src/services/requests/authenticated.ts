@@ -81,7 +81,7 @@ export class AuthenticatedRequest extends BaseRequest {
             this.refreshQueue.setIsRefreshing(false);
             this.refreshQueue.notifySubscribers();
 
-            return this.refreshClient(originalRequest);
+            return this.client(originalRequest);
           } catch (refreshError) {
             this.refreshQueue.setIsRefreshing(false);
             this.refreshQueue.notifySubscribers(refreshError as Error);
