@@ -38,6 +38,7 @@ const Logo = ({
         height={height}
         className="h-full max-h-25 w-full max-w-25 rounded-md object-contain"
         priority
+        fetchPriority="high"
       />
     </div>
     {showText && (
