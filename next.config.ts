@@ -2,6 +2,7 @@ import { fileURLToPath } from "url";
 
 import type { NextConfig } from "next";
 
+import { withSentryConfig } from "@sentry/nextjs";
 import { createJiti } from "jiti";
 
 const jiti = createJiti(fileURLToPath(import.meta.url));
@@ -21,4 +22,7 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  silent: true,
+  sourcemaps: { deleteSourcemapsAfterUpload: true },
+});

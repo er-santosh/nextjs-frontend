@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
+
 import { InfoContent } from "@/features/contact/components/info-content";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description: "Get in touch with our team. We'd love to hear from you.",
+};
 
 export default function ContactPage() {
   return (

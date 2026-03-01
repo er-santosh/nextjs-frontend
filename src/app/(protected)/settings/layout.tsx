@@ -3,7 +3,7 @@ import { type PropsWithChildren } from "react";
 import { AccountSidebar } from "@/components/partials/sidebar/account-sidebar";
 import { PageHeader } from "@/components/shared/page-header";
 
-const layout = async (props: PropsWithChildren) => {
+export default async function SettingsLayout(props: PropsWithChildren) {
   return (
     <div>
       <PageHeader title="Account" description="Manage your account, security" />
@@ -13,6 +13,4 @@ const layout = async (props: PropsWithChildren) => {
       </div>
     </div>
   );
-};
-
-export default layout;
+}

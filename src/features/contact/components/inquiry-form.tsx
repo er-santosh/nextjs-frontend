@@ -1,7 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useInquiryForm } from "@/features/contact/hooks/use-inquiry-form";
 
 import { EmailField } from "@/components/form-fields/email-field";
 import { InputField } from "@/components/form-fields/input-field";
@@ -11,41 +10,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
 
-import { InquirySchema, type InquiryFormData } from "@/schemas/inquiry";
-
 import {
   INQUIRY_TOPIC_OPTIONS,
   TEAM_SIZE_OPTIONS,
 } from "@/constants/choice-options";
 
 const InquiryForm = () => {
-  const { control, handleSubmit } = useForm<InquiryFormData>({
-    resolver: zodResolver(InquirySchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      topic: "",
-      teamSize: "",
-      message: "",
-    },
-  });
-
-  const onSubmit = (_data: InquiryFormData) => {
-    // mutate(data, {
-    //   onSuccess: success => {
-    //     toast.success(success.message);
-    //     reset();
-    //   },
-    //   onError: error => {
-    //     toast.error(error.message);
-    //   },
-    // });
-  };
+  const { control, handleSubmit, isPending } = useInquiryForm();
 
   return (
     <Card>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit}>
           <FieldGroup>
             <InputField
               control={control}
@@ -78,10 +54,7 @@ const InquiryForm = () => {
               showCharacterCount
               maxLength={400}
             />
-            <Button
-              type="submit"
-              //  isLoading={isPending}
-            >
+            <Button type="submit" isLoading={isPending}>
               Submit Inquiry
             </Button>
           </FieldGroup>

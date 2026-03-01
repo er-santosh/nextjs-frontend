@@ -19,13 +19,13 @@ const InvalidTokenCard = () => (
   <div className="flex grow items-center justify-center p-4">
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle className="text-center text-3xl font-bold text-gray-800 dark:text-white">
+        <CardTitle className="text-foreground text-center text-3xl font-bold">
           Invalid Reset Link
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          <p className="text-center text-gray-600">
+          <p className="text-muted-foreground text-center">
             This password reset link is invalid or has expired.
           </p>
         </div>

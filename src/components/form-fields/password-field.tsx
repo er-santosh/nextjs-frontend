@@ -50,7 +50,7 @@ export function PasswordField<T extends FieldValues>({
         showForgotPassword ? (
           <Link
             href={APP_ROUTES.AUTH.FORGOT_PASSWORD}
-            className="text-primary-800 text-sm hover:underline"
+            className="text-primary text-sm hover:underline"
           >
             Forgot your password?
           </Link>
@@ -63,7 +63,9 @@ export function PasswordField<T extends FieldValues>({
             type="button"
             onClick={() => setShowPassword(!showPassword)}
             disabled={disabled}
-            className="absolute top-1/2 right-3 -translate-y-1/2 transform text-gray-400 hover:text-gray-600"
+            aria-label={showPassword ? "Hide password" : "Show password"}
+            aria-pressed={showPassword}
+            className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 transform"
           >
             {showPassword ? (
               <EyeOff className="h-4 w-4" />
