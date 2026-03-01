@@ -45,8 +45,9 @@ export class CookieStorage {
     return typeof token === "string" ? token : null;
   }
 
-  static getRefreshToken(): string | undefined {
-    return Cookies.get(COOKIE_NAMES.REFRESH_TOKEN);
+  static getRefreshToken(): string | null {
+    const token = Cookies.get(COOKIE_NAMES.REFRESH_TOKEN);
+    return token ?? null;
   }
 
   static clearTokens(): void {

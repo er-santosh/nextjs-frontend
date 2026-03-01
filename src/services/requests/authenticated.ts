@@ -24,15 +24,6 @@ export class AuthenticatedRequest extends BaseRequest {
   }
 
   protected setupInterceptors(): void {
-    this.client.interceptors.request.use(
-      config => {
-        return config;
-      },
-      (error: AxiosError) => {
-        return Promise.reject(error);
-      }
-    );
-
     this.client.interceptors.response.use(
       response => response,
       async (error: AxiosError) => {

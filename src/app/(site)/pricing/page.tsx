@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
+
 import {
   type PricingPlan,
   PricingCard,
 } from "@/features/pricing/components/pricing-card";
+
+export const metadata: Metadata = {
+  title: "Pricing",
+  description:
+    "Simple, transparent pricing. Choose the perfect plan for your team. Upgrade or downgrade anytime.",
+};
 
 const plans: PricingPlan[] = [
   {

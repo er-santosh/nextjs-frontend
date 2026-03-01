@@ -24,6 +24,7 @@ export interface InputFieldProps<T extends FieldValues> {
   type?: InputHTMLAttributes<HTMLInputElement>["type"];
   placeholder?: string;
   disabled?: boolean;
+  required?: boolean;
   showRequiredIndicator?: boolean;
   autoComplete?: string;
   className?: string;
@@ -44,6 +45,7 @@ export function InputField<T extends FieldValues>({
   type = "text",
   placeholder,
   disabled = false,
+  required,
   showRequiredIndicator = true,
   autoComplete,
   className,
@@ -96,6 +98,7 @@ export function InputField<T extends FieldValues>({
                 hasIcon && iconPosition === "end" && "pr-10"
               )}
               aria-invalid={fieldState.invalid}
+              aria-required={required}
               disabled={disabled}
               autoComplete={autoComplete}
             />

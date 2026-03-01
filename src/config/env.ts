@@ -8,9 +8,11 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.string(),
+    SENTRY_DSN: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_API_URL: z.url().default("http://localhost:4000/api/v1"),
+    NEXT_PUBLIC_SENTRY_DSN: z.string().optional(),
   },
   /**
    * You can't destruct `process.env` as a regular object in the Next.js edge runtime (e.g.
@@ -18,7 +20,9 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    SENTRY_DSN: process.env.SENTRY_DSN,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
