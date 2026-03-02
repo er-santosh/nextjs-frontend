@@ -19,7 +19,7 @@ Always use **pnpm**. npm/yarn/bun are blocked by the preinstall hook.
 pnpm install
 ```
 
-Requires Node >= 24, pnpm >= 10.
+Requires Node >= 22, pnpm >= 10.
 
 ## Essential Commands
 
