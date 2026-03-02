@@ -25,7 +25,8 @@
     "validate:fix": "run-s lint:fix format",
     "prepare": "husky || true",
     "setup": "playwright install --with-deps",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "release": "semantic-release"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs}": [

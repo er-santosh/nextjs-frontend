@@ -2,15 +2,19 @@ name: CI
 
 on:
   push:
-    branches: [main, dev]
+    branches: ['**']
   pull_request:
     branches: [main, dev]
 
 env:
-  NODE_VERSION: '22.14.0'
+  NODE_VERSION: '22'
 
 jobs:
+  # ──────────────────────────────────────────────
+  # Validate: lint, format, types, tests, build
+  # ──────────────────────────────────────────────
   validate:
+    name: Validate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,30 +24,41 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: pnpm
+          cache: 'pnpm'
 
-      - run: pnpm install --frozen-lockfile
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - run: pnpm exec next typegen
+      - name: Generate types
+        run: pnpm exec next typegen
         env:
           SKIP_ENV_VALIDATION: 1
 
-      - run: pnpm type-check
+      - name: Type check
+        run: pnpm run type-check
 
-      - run: pnpm lint
+      - name: Lint
+        run: pnpm run lint
 
-      - run: pnpm format:check
+      - name: Format check
+        run: pnpm run format:check
 
-      - run: pnpm test --ci --coverage
+      - name: Test
+        run: pnpm test --ci --coverage
 
-      - run: pnpm build
+      - name: Build
+        run: pnpm run build
         env:
           SKIP_ENV_VALIDATION: 1
 
+  # ──────────────────────────────────────────────
+  # Release: semantic-release on main / dev
+  # ──────────────────────────────────────────────
   release:
-    needs: validate
+    name: Release
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: validate
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev')
     outputs:
       released: ${{ steps.semantic.outputs.new-release-published }}
     permissions:
@@ -51,72 +66,166 @@ jobs:
       issues: write
       pull-requests: write
     steps:
+      - name: Generate GitHub App token
+        id: app_token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.RELEASE_APP_ID }}
+          private_key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          persist-credentials: false
+          token: ${{ steps.app_token.outputs.token }}
 
       - uses: pnpm/action-setup@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: pnpm
+          cache: 'pnpm'
 
-      - run: pnpm install --frozen-lockfile
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - id: semantic
-        run: pnpm exec semantic-release
+        name: Run semantic-release
+        run: pnpm run release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
 
-  deploy-staging:
-    needs: validate
+  # ──────────────────────────────────────────────
+  # Deploy: SSH deploy to EC2 on main / dev
+  # ──────────────────────────────────────────────
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
-    environment: staging
+    needs: release
+    if: >
+      github.event_name == 'push' &&
+      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') &&
+      needs.release.outputs.released == 'true'
+    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
     timeout-minutes: 15
     steps:
-      - uses: appleboy/ssh-action@v1.2.0
+      - uses: actions/checkout@v4
+
+      - name: Set environment name
+        id: env
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "name=production" >> $GITHUB_OUTPUT
+            echo "branch=main" >> $GITHUB_OUTPUT
+          else
+            echo "name=staging" >> $GITHUB_OUTPUT
+            echo "branch=dev" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create .env file from secrets
+        run: |
+          cat > .env.${{ steps.env.outputs.name }} << EOL
+          NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_SENTRY_DSN=${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
+          SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+          EOL
+
+      - name: Copy env and config to server
+        uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: '.env.${{ steps.env.outputs.name }},ecosystem.config.js'
+          target: ${{ secrets.APP_DIR }}
+
+      - name: Deploy application
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
           envs: APP_DIR
           script: |
             set -e
+
+            sudo mkdir -p "$APP_DIR" /var/log/pm2
+            sudo chown -R $USER:$USER "$APP_DIR" /var/log/pm2
+
             cd "$APP_DIR"
-            git pull origin dev
+
+            if [ -f .env.${{ steps.env.outputs.name }} ]; then
+              cp .env.${{ steps.env.outputs.name }} /tmp/.env.backup
+            fi
+
+            if [ ! -d .git ]; then
+              git init
+              git remote add origin git@github.com:${{ github.repository }}.git
+            fi
+
+            git remote set-url origin git@github.com:${{ github.repository }}.git
+            git fetch origin
+            git reset --hard origin/${{ steps.env.outputs.branch }}
+
+            if [ -f /tmp/.env.backup ]; then
+              cp /tmp/.env.backup .env
+              rm /tmp/.env.backup
+            else
+              echo "No .env backup found — aborting"
+              exit 1
+            fi
+
+            corepack enable pnpm
             pnpm install --frozen-lockfile
-            # Requires a pre-configured .env file in $APP_DIR with NEXT_PUBLIC_* variables
-            pnpm build
-            pm2 reload frontend --update-env
+            pnpm run build
+
+            if pm2 describe frontend > /dev/null 2>&1; then
+              pm2 save --force
+              if ! pm2 reload ecosystem.config.js --env ${{ steps.env.outputs.name }} --update-env; then
+                pm2 resurrect
+                exit 1
+              fi
+            else
+              pm2 start ecosystem.config.js --env ${{ steps.env.outputs.name }}
+            fi
+
+            pm2 save
         env:
           APP_DIR: ${{ secrets.APP_DIR }}
 
-  deploy-production:
-    needs: release
-    runs-on: ubuntu-latest
-    if: >
-      github.ref == 'refs/heads/main' &&
-      github.event_name == 'push' &&
-      needs.release.outputs.released == 'true'
-    environment: production
-    timeout-minutes: 15
-    steps:
-      - uses: appleboy/ssh-action@v1.2.0
+      - name: Health check
+        run: |
+          sleep 15
+          MAX_RETRIES=5
+          RETRY_COUNT=0
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            if curl -sf ${{ secrets.APP_URL }}; then
+              echo "Health check passed"
+              exit 0
+            fi
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+            [ $RETRY_COUNT -lt $MAX_RETRIES ] && sleep 10
+          done
+          echo "Health check failed after $MAX_RETRIES attempts"
+          exit 1
+
+      - name: Rollback on failure
+        if: failure()
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
           envs: APP_DIR
           script: |
-            set -e
             cd "$APP_DIR"
-            git pull origin main
-            pnpm install --frozen-lockfile
-            # Requires a pre-configured .env file in $APP_DIR with NEXT_PUBLIC_* variables
-            pnpm build
-            pm2 reload frontend --update-env
+            PREV=$(git rev-parse HEAD@{1} 2>/dev/null || echo "")
+            if [ -n "$PREV" ]; then
+              git reset --hard $PREV
+              pnpm install --frozen-lockfile
+              pnpm run build
+            fi
+            pm2 resurrect
         env:
           APP_DIR: ${{ secrets.APP_DIR }}
