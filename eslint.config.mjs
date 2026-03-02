@@ -170,7 +170,7 @@ const eslintConfig = defineConfig([
       ],
 
       "import/no-duplicates": "error",
-      "import/no-cycle": "error",
+      // import/no-cycle removed: consumed 92% of lint time (44s/48s) at scale
       "import/no-self-import": "error",
       "import/no-useless-path-segments": "error",
       "import/newline-after-import": "warn",
