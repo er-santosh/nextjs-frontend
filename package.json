@@ -25,13 +25,9 @@
     "validate:fix": "run-s lint:fix format",
     "prepare": "husky || true",
     "setup": "playwright install --with-deps",
-    "setup:env": "bash scripts/setup_env_sync.sh",
     "preinstall": "npx only-allow pnpm",
     "release": "semantic-release",
-    "release:dry": "semantic-release --dry-run",
-    "sync:env:all": "pnpm run sync:env:staging && pnpm run sync:env:prod",
-    "sync:env:prod": "python3 scripts/sync_env_to_github.py production .env.production",
-    "sync:env:staging": "python3 scripts/sync_env_to_github.py staging .env.staging"
+    "release:dry": "semantic-release --dry-run"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs}": [
