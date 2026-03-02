@@ -2,12 +2,12 @@ name: CI
 
 on:
   push:
-    branches: ['**']
+    branches: ["**"]
   pull_request:
     branches: [main, dev]
 
 env:
-  NODE_VERSION: '22'
+  NODE_VERSION: "22"
 
 jobs:
   # ──────────────────────────────────────────────
@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -83,7 +83,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -135,7 +135,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: '.env.${{ steps.env.outputs.name }},ecosystem.config.js'
+          source: ".env.${{ steps.env.outputs.name }},ecosystem.config.js"
           target: ${{ secrets.APP_DIR }}
 
       - name: Deploy application
