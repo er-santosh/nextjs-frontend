@@ -2,9 +2,12 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev]
   pull_request:
-    branches: [main]
+    branches: [main, dev]
+
+env:
+  NODE_VERSION: '22.14.0'
 
 jobs:
   validate:
@@ -16,7 +19,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
@@ -34,3 +37,74 @@ jobs:
       - run: pnpm build
         env:
           SKIP_ENV_VALIDATION: 1
+
+  release:
+    needs: validate
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm exec semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-staging:
+    needs: validate
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
+    environment: staging
+    steps:
+      - uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: APP_DIR
+          script: |
+            set -e
+            cd "$APP_DIR"
+            git pull origin dev
+            pnpm install --frozen-lockfile
+            pnpm build
+            pm2 reload frontend --update-env
+        env:
+          APP_DIR: ${{ secrets.APP_DIR }}
+
+  deploy-production:
+    needs: release
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+    steps:
+      - uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: APP_DIR
+          script: |
+            set -e
+            cd "$APP_DIR"
+            git pull origin main
+            pnpm install --frozen-lockfile
+            pnpm build
+            pm2 reload frontend --update-env
+        env:
+          APP_DIR: ${{ secrets.APP_DIR }}
