@@ -24,10 +24,8 @@ export const APP_ROUTES = {
   },
 };
 
-// Routes that don't require authentication
 export const PUBLIC_ROUTES = extractRoutes(APP_ROUTES.SITE);
 
-// Authentication routes (lOGIN, rEGISTER)
 export const AUTH_ROUTES = [
   APP_ROUTES.AUTH.LOGIN,
   APP_ROUTES.AUTH.REGISTER,

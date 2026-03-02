@@ -30,7 +30,6 @@ export function BreadcrumbSegments() {
   const buildSegments = () => {
     const segments: BreadcrumbSegment[] = [];
 
-    // If we have at least one segment, the first one is the slug (workspace/org)
     if (pathSegments.length === 0) return segments;
 
     const slug = pathSegments[0];
@@ -38,14 +37,12 @@ export function BreadcrumbSegments() {
 
     const slugHref = `/${slug}`;
 
-    // Add the slug segment as "Home"
     segments.push({
       label: "Home",
       href: slugHref,
       isActive: pathSegments.length === 1,
     });
 
-    // Process remaining segments
     if (pathSegments.length > 1) {
       for (let i = 1; i < pathSegments.length; i++) {
         const segment = pathSegments[i];

@@ -32,14 +32,12 @@ export function SidebarMenuList({ items }: SidebarMenuListProps) {
   return (
     <SidebarMenu>
       {items.map(item => {
-        // Check if item itself is active
         const itemActive = matchesRoute(pathname, item.url, {
           strategy: item.matchStrategy,
           pattern: item.matchPattern,
           customMatcher: item.customMatcher,
         });
 
-        // Check if any child is active
         const childActive = hasActiveChild(pathname, item.items);
 
         const isActive = itemActive || childActive;

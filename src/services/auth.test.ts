@@ -21,7 +21,6 @@ jest.mock("@/lib/cookie-storage", () => ({
   },
 }));
 
-// Imports after mocks
 import { AuthenticatedRequest } from "@/services/requests/authenticated";
 import { UnauthenticatedRequest } from "@/services/requests/unauthenticated";
 

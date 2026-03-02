@@ -35,12 +35,7 @@ export function SidebarNavItem({
 
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton
-        isActive={isActive}
-        asChild
-        tooltip={item.title}
-        // className="data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground"
-      >
+      <SidebarMenuButton isActive={isActive} asChild tooltip={item.title}>
         <Link href={item.url} prefetch>
           {Icon && <Icon />}
           <span>{item.title}</span>

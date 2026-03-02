@@ -35,7 +35,7 @@ export const seoConfig: Metadata = {
       "Starter template built using nextjs and other high techs: tailwindcss, shadcn/ui.",
     images: [
       {
-        url: "/og-image.png", // 1200x630px recommended
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: appConfig.name,
@@ -47,7 +47,7 @@ export const seoConfig: Metadata = {
     title: appConfig.name,
     description:
       "Starter template built using nextjs and other high techs: tailwindcss, shadcn/ui.",
-    images: ["/twitter.png"], // 1200x630px recommended
+    images: ["/twitter.png"],
     creator: "@ErSantoshTharu",
   },
   robots: {

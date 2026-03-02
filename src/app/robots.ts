@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/admin/", "/dashboard"], // Add paths you want to block
+      disallow: ["/api/", "/admin/", "/dashboard"],
     },
     sitemap: `${env.NEXT_PUBLIC_API_URL}/sitemap.xml`,
   };

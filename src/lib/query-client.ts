@@ -5,8 +5,8 @@ import { AUTH_KEYS } from "@/constants/query-keys";
 
 import type { User } from "@/types/api/shared";
 
-export const STALE_TIME = 1000 * 60 * 5; // 5 minutes
-export const GC_TIME = 1000 * 60 * 10; // 10 minutes
+export const STALE_TIME = 1000 * 60 * 5;
+export const GC_TIME = 1000 * 60 * 10;
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,7 +15,6 @@ export const queryClient = new QueryClient({
       gcTime: GC_TIME,
       refetchOnWindowFocus: false,
       retry: (failureCount, error) => {
-        // Don't retry on 401 (handled by interceptor)
         if (error instanceof AxiosError && error.response?.status === 401) {
           return false;
         }

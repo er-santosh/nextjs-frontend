@@ -64,7 +64,6 @@ function Button({
   const Comp = asChild ? Slot : "button";
   const isDisabled = disabled ?? isLoading;
 
-  // If asChild is true and we're loading, we can't modify children
   if (asChild && isLoading) {
     console.warn("Button: Cannot use isLoading with asChild prop");
   }

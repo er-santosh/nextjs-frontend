@@ -22,7 +22,7 @@ export interface User {
   id: string;
   first_name: string;
   last_name: string;
-  name?: string; // this will be added in frontend for easy access
+  name?: string;
   email: string;
   role: UserRole;
   email_verified_at: string | null;

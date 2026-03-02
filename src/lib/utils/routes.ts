@@ -6,9 +6,6 @@ export interface RouteMatchOptions {
   customMatcher?: (currentPath: string, itemUrl: string) => boolean;
 }
 
-/**
- * Checks if the current path matches the item URL based on the strategy
- */
 export function matchesRoute(
   currentPath: string,
   itemUrl: string,
@@ -16,7 +13,6 @@ export function matchesRoute(
 ): boolean {
   const { strategy = "prefix", pattern, customMatcher } = options;
 
-  // Normalize paths
   const normalizedCurrent = normalizePath(currentPath);
   const normalizedItem = normalizePath(itemUrl);
 
@@ -47,9 +43,6 @@ export function matchesRoute(
   }
 }
 
-/**
- * Normalize path by removing trailing slashes and ensuring leading slash
- */
 function normalizePath(path: string): string {
   if (!path) return "/";
   const normalized = path.startsWith("/") ? path : `/${path}`;
@@ -58,9 +51,6 @@ function normalizePath(path: string): string {
     : normalized;
 }
 
-/**
- * Check if any child item is active
- */
 export function hasActiveChild(
   currentPath: string,
   items: SidebarItem[] = []

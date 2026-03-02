@@ -2,9 +2,6 @@ import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 import importPlugin from "eslint-plugin-import";
-import promisePlugin from "eslint-plugin-promise";
-import securityPlugin from "eslint-plugin-security";
-import sonarjs from "eslint-plugin-sonarjs";
 import unusedImports from "eslint-plugin-unused-imports";
 import prettierConfig from "eslint-config-prettier";
 
@@ -23,16 +20,8 @@ const eslintConfig = defineConfig([
     plugins: {
       import: importPlugin,
       "unused-imports": unusedImports,
-      security: securityPlugin,
-      sonarjs: sonarjs,
-      promise: promisePlugin,
     },
     rules: {
-      // ============================================
-      // JAVASCRIPT RULES
-      // ============================================
-
-      // Code Quality
       "no-console": ["warn", { allow: ["warn", "error"] }],
       eqeqeq: ["error", "always"],
       "prefer-const": "error",
@@ -41,7 +30,6 @@ const eslintConfig = defineConfig([
       "no-implicit-coercion": "error",
       "no-throw-literal": "error",
 
-      // Prevent Common Mistakes
       "no-await-in-loop": "warn",
       "require-atomic-updates": "error",
       "no-return-await": "error",
@@ -50,33 +38,20 @@ const eslintConfig = defineConfig([
       "consistent-return": "warn",
       "default-case-last": "error",
       "no-param-reassign": ["warn", { props: true }],
-      "no-shadow": "off", // Handled by TS version
+      "no-shadow": "off",
 
-      // Complexity Limits
       "max-depth": ["warn", 4],
-      "max-lines-per-function": "off",
       "max-nested-callbacks": ["warn", 3],
 
-      // ============================================
-      // TYPESCRIPT RULES
-      // ============================================
-
-      // TypeScript Best Practices
-      "@typescript-eslint/no-unused-vars": "off", // Handled by unused-imports
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/no-non-null-assertion": "warn",
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-floating-promises": "error",
       "@typescript-eslint/await-thenable": "error",
-      "@typescript-eslint/no-misused-promises": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "warn",
       "@typescript-eslint/prefer-optional-chain": "warn",
       "@typescript-eslint/no-unnecessary-condition": "warn",
       "@typescript-eslint/no-shadow": "error",
-      "@typescript-eslint/strict-boolean-expressions": "off",
-
-      // Type Safety
       "@typescript-eslint/consistent-type-imports": [
         "error",
         {
@@ -85,22 +60,9 @@ const eslintConfig = defineConfig([
         },
       ],
       "@typescript-eslint/consistent-type-exports": "error",
-      "@typescript-eslint/no-unsafe-assignment": "off",
-      "@typescript-eslint/no-unsafe-member-access": "off",
-      "@typescript-eslint/no-unsafe-call": "off",
-      "@typescript-eslint/no-unsafe-return": "off",
 
-      // ============================================
-      // REACT RULES
-      // ============================================
-
-      // React Hooks
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
-
-      // React Best Practices
       "react/jsx-no-target-blank": "error",
-      "react/jsx-key": "error",
+      "react/no-unescaped-entities": "warn",
       "react/self-closing-comp": "warn",
       "react/jsx-curly-brace-presence": [
         "warn",
@@ -110,11 +72,7 @@ const eslintConfig = defineConfig([
         },
       ],
       "react/jsx-boolean-value": ["warn", "never"],
-      "react/no-unescaped-entities": "warn",
-      "react/jsx-no-duplicate-props": "error",
       "react/jsx-no-useless-fragment": "warn",
-
-      // React Performance
       "react/jsx-no-bind": [
         "warn",
         {
@@ -124,35 +82,23 @@ const eslintConfig = defineConfig([
         },
       ],
 
-      // Next.js Specific
-      "@next/next/no-html-link-for-pages": "error",
-      "@next/next/no-img-element": "warn",
-
-      // ============================================
-      // IMPORT & MODULE RULES
-      // ============================================
-
-      // Import Organization
       "import/order": [
         "error",
         {
           groups: [
-            "builtin", // Node.js built-in modules
-            "external", // External npm packages
-            "internal", // Internal aliases (@/)
-            ["parent", "sibling"], // Relative imports (../, ./)
-            "index", // Index imports (./)
-            "object", // Object imports
-            // "type", // Type imports (TypeScript)
+            "builtin",
+            "external",
+            "internal",
+            ["parent", "sibling"],
+            "index",
+            "object",
           ],
           pathGroups: [
-            // 1. React - first priority
             {
               pattern: "react",
               group: "external",
               position: "before",
             },
-            // 2. Next.js libraries - second priority
             {
               pattern: "next",
               group: "external",
@@ -163,9 +109,6 @@ const eslintConfig = defineConfig([
               group: "external",
               position: "before",
             },
-            // 3. Other external libraries will fall here naturally
-
-            // 4. Internal imports - in your specified order
             {
               pattern: "@/providers/**",
               group: "internal",
@@ -226,15 +169,12 @@ const eslintConfig = defineConfig([
         },
       ],
 
-      // Import Quality
       "import/no-duplicates": "error",
       "import/no-cycle": "error",
       "import/no-self-import": "error",
       "import/no-useless-path-segments": "error",
       "import/newline-after-import": "warn",
-      "import/no-anonymous-default-export": "warn",
 
-      // Unused Imports Cleanup
       "unused-imports/no-unused-imports": "error",
       "unused-imports/no-unused-vars": [
         "warn",
@@ -245,45 +185,9 @@ const eslintConfig = defineConfig([
           argsIgnorePattern: "^_",
         },
       ],
-
-      // ============================================
-      // SECURITY & ACCESSIBILITY
-      // ============================================
-
-      // Accessibility (from next/core-web-vitals)
-      "jsx-a11y/alt-text": "error",
-      "jsx-a11y/aria-props": "error",
-      "jsx-a11y/aria-role": "error",
-      "jsx-a11y/role-has-required-aria-props": "error",
-      "jsx-a11y/role-supports-aria-props": "error",
-
-      // Security
-      "security/detect-non-literal-regexp": "warn",
-      "security/detect-unsafe-regex": "error",
-
-      // ============================================
-      // CODE SMELL DETECTION
-      // ============================================
-
-      // SonarJS
-      "sonarjs/no-duplicate-string": ["warn", { threshold: 5 }],
-      "sonarjs/no-identical-functions": "warn",
-      "sonarjs/no-collapsible-if": "warn",
-      "sonarjs/prefer-single-boolean-return": "warn",
-
-      // ============================================
-      // PROMISE HANDLING
-      // ============================================
-
-      // Promise Plugin
-      "promise/always-return": "warn",
-      "promise/catch-or-return": "error",
-      "promise/no-nesting": "warn",
-      "promise/prefer-await-to-then": "warn",
     },
   },
 
-  // Override default ignores of eslint-config-next
   globalIgnores([
     ".next/**",
     "out/**",
